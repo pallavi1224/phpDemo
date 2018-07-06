@@ -1,9 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image compressor</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" action="image_compress.php">
+        <input type="file" name="upload_images">
+        <input type="submit">
+    </form>
+</body>
+</html>
+
 <?php
-include 'config.php';
-global $conn;
-$f_name = $_POST['f_name'];
-$l_name = $_POST['l_name'];
-$email = $_POST['email'];
+$file_type_error = '';
 if($_FILES['upload_images']['name']) {
     $upload_dir = "temp/";
     if (($_FILES["upload_images"]["type"] == "image/gif") ||
@@ -21,6 +30,10 @@ if($_FILES['upload_images']['name']) {
             unlink('temp/'.$_FILES['upload_images']['name']);
         }
     } 
+    else 
+    {
+        $file_type_error = "Upload only jpg or gif or png file type";
+    }
 }
 
 function compressImage($source_image, $compress_image) {
@@ -42,22 +55,4 @@ function compressImage($source_image, $compress_image) {
     }
     return $compress_image;
 }
-
-$sql = "INSERT INTO `my_data`(`f_name`, `l_name`, `email_id`,`profile`) VALUES ('".$f_name."','".$l_name."','".$email."','".$image_destination."')";
-
-$arr = array('success' => 1, 'error' => 0);
-if ($conn->query($sql) === TRUE) {
-    echo json_encode($arr);
-} else {
-	array('success' => 0, 'error' => 1);
-    echo json_encode($arr);
-}
-
-$conn->close();
 ?>
-
-
-
-
-<?php
-

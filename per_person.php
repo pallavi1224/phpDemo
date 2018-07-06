@@ -2,7 +2,7 @@
 include 'config.php';
 global $conn;
 $id = $_POST['id'];
-$sql = "SELECT * FROM `tbl_info` WHERE `info_id`= '".$id."'";
+$sql = "SELECT * FROM `my_data` WHERE `info_id`= '".$id."'";
 $result = mysqli_query($conn, $sql);
 
 if (mysqli_num_rows($result) > 0) {
